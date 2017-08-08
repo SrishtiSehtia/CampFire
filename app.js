@@ -13,7 +13,7 @@ app.get("/campgrounds", function(req, res) {
         {name: "Granite Hill", image:"http://www.visitnc.com/contents/imgcrop/61803/1200/630/preview"},
         {name: "Mountain Goat's Rest", image:"http://images.huffingtonpost.com/2015-03-19-1426803829-9735139-8f524af8ef2b50a4dab24786229c28c11.jpg"}
         ]
-    res.render("campgrounds");
+    res.render("campgrounds", {campgrounds:campgrounds});
 });
 
 app.listen(process.env.PORT, process.env.IP, function() {
