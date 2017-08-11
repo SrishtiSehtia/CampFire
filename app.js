@@ -14,30 +14,31 @@ var campgroundSchema = new mongoose.Schema({
 });
 
 var Campground = mongoose.model("Campground", campgroundSchema);
-Campground.create({
-    name: "Salmon Creek",
-    image: "http://cdn.grindtv.com/uploads/2015/02/shutterstock_242371765.jpg"
-}, function(err, campground){
-    if(err){
-        console.log(err)
-    } else {
-        console.log("NEWLY CREATED CAMPGOUND:")
-        console.log(campground)
-    }
-});
- 
- var campgrounds = [
-        {name: "Salmon Creek", image:"http://cdn.grindtv.com/uploads/2015/02/shutterstock_242371765.jpg"},
-        {name: "Granite Hill", image:"http://www.visitnc.com/contents/imgcrop/61803/1200/630/preview"},
-        {name: "Mountain Goat's Rest", image:"http://images.huffingtonpost.com/2015-03-19-1426803829-9735139-8f524af8ef2b50a4dab24786229c28c11.jpg"}
-        ]
+// Campground.create({
+//     name: "Granite Hill",
+//     image: "http://www.visitnc.com/contents/imgcrop/61803/1200/630/preview"
+// }, function(err, campground){
+//     if(err){
+//         console.log(err)
+//     } else {
+//         console.log("NEWLY CREATED CAMPGOUND:")
+//         console.log(campground)
+//     }
+// });
 
 app.get("/", function(req, res){
     res.render("landing");
 });
 
 app.get("/campgrounds", function(req, res) {
-    res.render("campgrounds", {campgrounds:campgrounds});
+    // Get all campgrounds from DB
+    Campground.find({}, function(err, allCampgrounds){
+        if(err){
+            console.log(err)
+        } else {
+            res.render("campgrounds", {campgrounds:allCampgrounds});
+        }
+    })
 });
 
 app.post("/campgrounds", function(req, res) {
