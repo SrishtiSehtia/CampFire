@@ -1,10 +1,31 @@
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
+var express = require("express"),
+    app = express(),
+    bodyParser = require("body-parser"),
+    mongoose = require("mongoose")
 
+mongoose.connect("mongodb://localhost/yelp_camp", {useMongoClient: true});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
+//  SCHEMA SETUP
+var campgroundSchema = new mongoose.Schema({
+    name: String,
+    image: String
+});
+
+var Campground = mongoose.model("Campground", campgroundSchema);
+Campground.create({
+    name: "Salmon Creek",
+    image: "http://cdn.grindtv.com/uploads/2015/02/shutterstock_242371765.jpg"
+}, function(err, campground){
+    if(err){
+        console.log(err)
+    } else {
+        console.log("NEWLY CREATED CAMPGOUND:")
+        console.log(campground)
+    }
+});
+ 
  var campgrounds = [
         {name: "Salmon Creek", image:"http://cdn.grindtv.com/uploads/2015/02/shutterstock_242371765.jpg"},
         {name: "Granite Hill", image:"http://www.visitnc.com/contents/imgcrop/61803/1200/630/preview"},
