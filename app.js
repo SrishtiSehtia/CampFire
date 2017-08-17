@@ -5,9 +5,10 @@ var express = require("express"),
     Campground = require("./models/campground"),
     seedDB      = require("./seeds")
 
-mongoose.connect("mongodb://localhost/yelp_camp_v3", {useMongoClient: true});
+mongoose.connect("mongodb://localhost/yelp_camp_v4", {useMongoClient: true});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+seedDB();
 
 // Campground.create({
 //     name: "Granite Hill",
@@ -32,7 +33,7 @@ app.get("/campgrounds", function(req, res) {
         if(err){
             console.log(err)
         } else {
-            res.render("index", {campgrounds:allCampgrounds});
+            res.render("campgrounds/index", {campgrounds:allCampgrounds});
         }
     })
 });
@@ -57,18 +58,19 @@ app.post("/campgrounds", function(req, res) {
 
 // NEW - Show form to create a new campground
 app.get("/campgrounds/new", function(req, res) {
-    res.render("new.ejs");
+    res.render("campgrounds/new");
 });
 
 // SHOW - shows more info about one campground
 app.get("/campgrounds/:id", function(req, res){
     //find the campground with provided ID
-    Campground.findById(req.params.id, function(err, foundCampground){
+    Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
         if(err){
             console.log(err);
         } else {
+            console.log(foundCampground)
             //render show template with that campground
-            res.render("show", {campground: foundCampground});
+            res.render("campgrounds/show", {campground: foundCampground});
         }
     });
 })
