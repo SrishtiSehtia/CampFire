@@ -5,7 +5,7 @@ var express = require("express"),
     Campground = require("./models/campground"),
     seedDB      = require("./seeds")
 
-mongoose.connect("mongodb://localhost/yelp_camp", {useMongoClient: true});
+mongoose.connect("mongodb://localhost/yelp_camp_v3", {useMongoClient: true});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
