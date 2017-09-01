@@ -9,24 +9,23 @@ var express     = require("express"),
     User        = require("./models/user"),
     seedDB      = require("./seeds")
 
-mongoose.connect("mongodb://localhost/yelp_camp_v4", {useMongoClient: true});
+mongoose.connect("mongodb://localhost/yelp_camp_v6", {useMongoClient: true});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 seedDB();
 
-// Campground.create({
-//     name: "Granite Hill",
-//     image: "http://www.visitnc.com/contents/imgcrop/61803/1200/630/preview",
-//     description: "This is a hugr granite rock. Serene and secluded. Beautiful sunsets"
-// }, function(err, campground){
-//     if(err){
-//         console.log(err)
-//     } else {
-//         console.log("NEWLY CREATED CAMPGOUND:")
-//         console.log(campground)
-//     }
-// });
+// PASSPORT CONFIGURATION
+app.use(require("express-session")({
+    secret: "Once again Rusty wins cutest dog!",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.get("/", function(req, res){
     res.render("landing");
