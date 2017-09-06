@@ -117,10 +117,6 @@ app.post("/campgrounds/:id/comments", function(req, res){
    //redirect campground show page
 });
 
-app.listen(process.env.PORT, process.env.IP, function() {
-    console.log("The YelpCamp server has started! ");
-});
-
 //  ===========
 // AUTH ROUTES
 //  ===========
@@ -129,6 +125,7 @@ app.listen(process.env.PORT, process.env.IP, function() {
 app.get("/register", function(req, res){
    res.render("register"); 
 });
+
 //handle sign up logic
 app.post("/register", function(req, res){
     var newUser = new User({username: req.body.username});
@@ -147,10 +144,21 @@ app.post("/register", function(req, res){
 app.get("/login", function(req, res){
    res.render("login"); 
 });
+
 // handling login logic
 app.post("/login", passport.authenticate("local", 
     {
         successRedirect: "/campgrounds",
         failureRedirect: "/login"
     }), function(req, res){
+});
+
+// logic route
+app.get("/logout", function(req, res){
+   req.logout();
+   res.redirect("/campgrounds");
+});
+
+app.listen(process.env.PORT, process.env.IP, function() {
+    console.log("The YelpCamp server has started! ");
 });
