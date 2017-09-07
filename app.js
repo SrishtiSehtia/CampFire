@@ -83,7 +83,7 @@ app.get("/campgrounds/:id", function(req, res){
 // COMMENTS ROUTES
 // ====================
 
-app.get("/campgrounds/:id/comments/new", function(req, res){
+app.get("/campgrounds/:id/comments/new", isLoggedIn, function(req, res){
     // find campground by id
     Campground.findById(req.params.id, function(err, campground){
         if(err){
