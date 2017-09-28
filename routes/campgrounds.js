@@ -19,7 +19,8 @@ router.post("/", isLoggedIn, function(req, res){
     // get data from form and add to campgrounds array
     var name = req.body.name;
     var image = req.body.image;
-    var desc = req.body.description;    var author = {
+    var desc = req.body.description;
+    var author = {
         id: req.user._id,
         username: req.user.username
     }
@@ -30,6 +31,7 @@ router.post("/", isLoggedIn, function(req, res){
             console.log(err);
         } else {
             //redirect back to campgrounds page
+            console.log(newlyCreated);
             res.redirect("/campgrounds");
         }
     });
